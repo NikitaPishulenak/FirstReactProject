@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>React</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/react@16/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
+    
+    <script src="https://unpkg.com/babel-standalone@6.15.0/babel.min.js"></script>
+  </head>
+  <body>
+    <div id="box"></div>
+    
+    <script type="text/babel">
+ 
+
+        class Block extends React.Component{
+            constructor(props){
+                super(props);
+                this.state={
+                    edt:false,
+                };
+            };
+
+            renderEdit=()=>{
+                return (<div className="component">
+                            <p><textarea ref="txtarea">{this.props.children}</textarea></p>
+                            <button onClick={this.save}>save</button>                        
+                        </div>);
+            };
+
+            renderNormal=()=>{
+                return (<div className="component">
+                            <p>{this.props.children}</p>
+                            <button onClick={this.edit}>edit</button>
+                            <button onClick={this.del}>delete</button>                            
+                        </div>);
+            };
+
+            edit=()=>{
+                this.setState({edt: true});
+            };
+
+            del=()=>{
+                alert("del");
+            };
+
+            save=()=>{
+                this.setState({edt: false});
+                alert(this.refs.txtarea.value);
+            };
+
+            render(){
+                if(!this.state.edt){
+                    return this.renderNormal();
+                } else{
+                    return this.renderEdit();
+                } 
+            }
+        }
+
+
+        class Field extends React.Component {
+            constructor(props) {
+                super(props);
+                this.state = {
+                    tasks: [
+                        'Необходимо купить молоко!',
+                        'Надо почистить зубы',
+                        'Просто отдохнуть'
+                    ]
+                };
+            };
+            render() {
+                return (
+                <div className="field">
+                    {
+                    this.state.tasks.map (function (item, i) {
+                        return (<Block key={i}>{item}</Block>);
+                    })
+                    }
+                </div>
+                );
+            }
+        }
+
+
+      ReactDOM.render(
+        <Field />,
+        document.getElementById('box')
+      );
+
+    </script>
+
+  </body>
+</html>

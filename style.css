@@ -1,0 +1,21 @@
+body{
+    background-color: #10dd99;
+}
+
+div.component{
+    background-color: #00ffff;
+    border: solid #018b8b 1px;
+    margin: 0 auto;
+    text-align: center;
+    width: 80%;
+    margin-top: 20px;
+}
+
+button{
+    margin: 3px;
+    border-radius: 5px;
+    font-size: 13pt;
+    color: #fff;
+    background:brown;
+    cursor: pointer;
+} 
