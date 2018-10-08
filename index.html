@@ -25,7 +25,7 @@
 
             renderEdit=()=>{
                 return (<div className="component">
-                            <p><textarea ref="txtarea">{this.props.children}</textarea></p>
+                            <p><textarea ref="txtarea" defaultValue={this.props.children}></textarea></p>
                             <button onClick={this.save}>save</button>                        
                         </div>);
             };
@@ -43,12 +43,12 @@
             };
 
             del=()=>{
-                alert("del");
+                this.props.delBlock(this.props.index);
             };
 
             save=()=>{
                 this.setState({edt: false});
-                alert(this.refs.txtarea.value);
+                this.props.updText(this.refs.txtarea.value, this.props.index);
             };
 
             render(){
@@ -66,20 +66,40 @@
                 super(props);
                 this.state = {
                     tasks: [
-                        'Необходимо купить молоко!',
-                        'Надо почистить зубы',
-                        'Просто отдохнуть'
+                        "Необходимо купить молоко!",
+                        "Надо почистить зубы",
+                        "Просто отдохнуть"
                     ]
                 };
             };
+            
+            addBlock=(text)=>{
+                var arr=this.state.tasks;
+                arr.push(text);
+                this.setState({tasks:arr});
+            };
+
+            deleteBlock=(i)=>{
+                var arr=this.state.tasks;
+                arr.splice(i,1);
+                this.setState({tasks:arr});
+            };
+
+            updateText=(text, i)=>{
+                var arr=this.state.tasks;
+                arr[i]=text;
+                this.setState({tasks:arr});
+            };
+
+            eachTask=(item, i)=>{
+                return (<Block  key={i} index={i} delBlock={this.deleteBlock} updText={this.updateText}>{item} </Block>);
+            };
+
             render() {
                 return (
                 <div className="field">
-                    {
-                    this.state.tasks.map (function (item, i) {
-                        return (<Block key={i}>{item}</Block>);
-                    })
-                    }
+                    <button onClick={this.addBlock.bind(null, 'Простое задание')}>Новое задание</button>
+                    {this.state.tasks.map(this.eachTask)}
                 </div>
                 );
             }
